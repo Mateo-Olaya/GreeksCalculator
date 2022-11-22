@@ -141,17 +141,32 @@ public static void LeerHeaderOpti(String fechaHeader, String fechaFormato )throw
         	 System.out.println(NoBoletaMx3);
         	 //Datos para calcular griegas
         	 if(infoMx3 != null) {
-        	 System.out.println(NoBoletaMx3);
-        	 double Spot = Double.parseDouble(infoMx3[19]);
-        	 double Days_to_Maturity = Double.parseDouble(infoMx3[21]);
-        	 double MarketVolume = Double.parseDouble(infoMx3[25]);
-        	 double Strike = Double.parseDouble(infoMx3[27]);
-        	 double Tasa_desc_div_base = Double.parseDouble(infoMx3[56]);
-        	 double Tasa_desc_div_sub = Double.parseDouble(infoMx3[57]);
-        	 String BUY_SELL = infoMx3[9];
-        	 String CALL_PUT = infoMx3[10];
-        	 double Days = Days_to_Maturity/360;
-        	 System.out.println(Spot+" "+Days_to_Maturity+" "+MarketVolume+" "+Strike+" "+Tasa_desc_div_base+" "+Tasa_desc_div_sub+" "+BUY_SELL+" "+CALL_PUT+" "+Days);
+        		 System.out.println(NoBoletaMx3);
+            	 double Spot = Double.parseDouble(infoMx3[19]);
+            	 double Days_to_Maturity = Double.parseDouble(infoMx3[21]);
+            	 double MarketVolume = Double.parseDouble(infoMx3[25]);
+            	 double Strike = Double.parseDouble(infoMx3[27]);
+            	 double Tasa_desc_div_base = Double.parseDouble(infoMx3[56]);
+            	 double Tasa_desc_div_sub = Double.parseDouble(infoMx3[57]);
+            	 String BUY_SELL = infoMx3[9];
+            	 String CALL_PUT = infoMx3[10];
+            	 double Te = Days_to_Maturity/365;
+    			 double DaysT2 = Te + 2;
+    			 double VolM = Double.parseDouble(infoMx3[26]);
+    			 double diasCumplimiento = Double.parseDouble(infoMx3[22]) - DaysT2;
+    			 double Td = diasCumplimiento/365;
+    			 double Rd = 0.10;
+    			 double Rcs = 0.03;
+    			 double Rdif = Rd - Rcs;
+    			 double FwdPrice = Spot*(((1+Rd)*(diasCumplimiento/360))/((1+Rcs)*(diasCumplimiento/360)));
+    			 double LnFwdStr = Math.log(FwdPrice/Strike);
+    			 double VolTe = (Math.pow(VolM,2)/2)*Te;
+    			 double SumLnVol = LnFwdStr + VolTe;
+    			 double VolRaiz = VolM*(Math.sqrt(Te));
+    			 double d1 = SumLnVol/VolRaiz;
+    			 double d2 = d1-(VolM*(Math.sqrt(Te)));
+    			 double nd1 = 2;
+        	 System.out.println(Spot+" "+Days_to_Maturity+" "+MarketVolume+" "+Strike+" "+Tasa_desc_div_base+" "+Tasa_desc_div_sub+" "+BUY_SELL+" "+CALL_PUT+" "+Te);
         	 //DatosD1=[spot,days to Maturity,Market Volume,Strike,Tasa_desc_div_base,Tasa_desc_div_sub}
         	 double D1;     
         	 //DatosD2 = [days to Maturity, MarketVolume]
