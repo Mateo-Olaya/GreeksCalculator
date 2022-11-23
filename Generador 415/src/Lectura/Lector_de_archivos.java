@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.math3.distribution.*;
@@ -101,7 +102,7 @@ public static void LeerHeaderOpti(String fechaHeader, String fechaFormato )throw
     String comparacionMx3="";
     String cabeHeader="";
     try {
-        bufferedReader = new BufferedReader(new FileReader(".\\Generador 415\\Archivos\\Murex3\\Formato415_Desarrollo.csv"));
+        bufferedReader = new BufferedReader(new FileReader(".\\Generador 415\\Archivos\\Murex3\\FORMATO415_"+fechaFormato+".csv"));
         bufferedWriter = new BufferedWriter(new FileWriter(".\\Generador 415\\Archivos\\Murex3\\FORMATO415_"+fechaFormato+"-modifiado.csv"));
         String lineaRenum = bufferedReader.readLine();
         final double PI = 3.1416;
@@ -177,7 +178,7 @@ public static void LeerHeaderOpti(String fechaHeader, String fechaFormato )throw
 				 gamma = (Spot*Math.exp(-Rcs*Td)*ndp1)/(Spot*VolM*Math.sqrt(Td));
 				 vega = (Spot*Math.sqrt(Te))*(Math.exp(-Rcs*Td))*(Te/10000);
 				 theta = (1/365)*((Spot*Math.exp(Td*Rcs)*ndp1*VolM/(2*Math.sqrt(Te)))-(Rd*Strike*Math.exp(-Rd*Td)*nd2)+(Rcs*Spot*Math.exp(-Rcs*Td)*nd1));
-
+			System.out.println("hola Mateo");
         	 System.out.println(delta+" "+gamma+" "+vega+" "+theta);
         	 //DatosD1=[spot,days to Maturity,Market Volume,Strike,Tasa_desc_div_base,Tasa_desc_div_sub}
         	 //DatosD2 = [days to Maturity, MarketVolume]
@@ -188,9 +189,10 @@ public static void LeerHeaderOpti(String fechaHeader, String fechaFormato )throw
            	 //Vega = [Spot,Days_to_Maturity,ND1]
            	 //Theta=[CALL_PUT,Spot,Days_to_Maturity,MarketVolume,Strike,Tasa_desc_div_base,Tasa_desc_div_sub,D2,ND1]
            	 //Rho = [CALL-PUT,Days_To_Maturity,Strike,Tasa_desc_div_base,Tasa_desc_div_sub,D2]
-           	 
-           	 
-           	 comparacionMx3 = fields[0]+";"+fields[1]+";"+fields[2]+";"+fields[3]+";"+fields[4]+";"+fields[5]+";"+fields[6]+";"+gamma+";"+vega+";"+delta;
+           	 String Gamma = String.format(Locale.ROOT,"%.4f", gamma); 
+           	 String Vega = String.format(Locale.ROOT,"%.4f", vega); 
+           	 String Delta = String.format(Locale.ROOT,"%.4f", delta); 
+           	 comparacionMx3 = fields[0]+";"+fields[1]+";"+fields[2]+";"+fields[3]+";"+fields[4]+";"+fields[5]+";"+fields[6]+";"+Gamma+";"+Vega+";"+Delta;
         	 bufferedWriter.write(comparacionMx3+"\n");
         	 System.out.println(comparacionMx3);
         	 }else {
