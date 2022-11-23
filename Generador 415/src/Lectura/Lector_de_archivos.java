@@ -17,6 +17,8 @@ public class Lector_de_archivos {
 //Renumerador ren = new Renumerador();
 	String MX2;
 	String MX3;
+
+	private static NormalDistribution nd;
 	public static void main(String[] args) throws FileNotFoundException {
 	
 		Calendar fecha = Calendar.getInstance();
@@ -165,8 +167,17 @@ public static void LeerHeaderOpti(String fechaHeader, String fechaFormato )throw
     			 double VolRaiz = VolM*(Math.sqrt(Te));
     			 double d1 = SumLnVol/VolRaiz;
     			 double d2 = d1-(VolM*(Math.sqrt(Te)));
-    			 double nd1 = 2;
-        	 System.out.println(Spot+" "+Days_to_Maturity+" "+MarketVolume+" "+Strike+" "+Tasa_desc_div_base+" "+Tasa_desc_div_sub+" "+BUY_SELL+" "+CALL_PUT+" "+Te);
+				 nd = new NormalDistribution();
+				 double nd1 = nd.cumulativeProbability(d1);
+				 double nd2 = nd.cumulativeProbability(d2);
+				 double ndp1 = Math.exp((-1*Math.pow(d1, 2))/2)/(Math.sqrt(2*PI));
+				 double delta = nd1 * 100;
+				 double gamma = Spot*Math.exp(-Rcs*Td*ndp1/(Spot*VolM*Math.sqrt(Td)));
+				 double vega = (Spot*Math.sqrt(Te))*(Math.exp(-Rcs*Td))*(Te/10000);
+				 double theta = (1/365)*((Spot*Math.exp(Td*Rcs)*ndp1*VolM/(2*Math.sqrt(Te)))-(Rd*Strike*Math.exp(-Rd*Td)*nd2)+(Rcs*Spot*Math.exp(-Rcs*Td)*nd1));
+
+			
+        	System.out.println(Spot+" "+Days_to_Maturity+" "+MarketVolume+" "+Strike+" "+Tasa_desc_div_base+" "+Tasa_desc_div_sub+" "+BUY_SELL+" "+CALL_PUT+" "+delta+" "+gamma+" "+vega+" "+theta);
         	 //DatosD1=[spot,days to Maturity,Market Volume,Strike,Tasa_desc_div_base,Tasa_desc_div_sub}
         	 double D1;     
         	 //DatosD2 = [days to Maturity, MarketVolume]
@@ -226,7 +237,6 @@ public static void LeerHeaderOpti(String fechaHeader, String fechaFormato )throw
         }
     }
 }
-
 
 
 public static void modificarHeaderSwap(String conteo)throws FileNotFoundException{
