@@ -17,7 +17,6 @@ public class Lector_de_archivos {
 //Renumerador ren = new Renumerador();
 	String MX2;
 	String MX3;
-
 	private static NormalDistribution nd;
 	public static void main(String[] args) throws FileNotFoundException {
 	
@@ -32,34 +31,7 @@ public class Lector_de_archivos {
         String fechaFormato=año+""+mes+""+dia;
         System.out.println(fechaHeader);
         LeerHeaderOpti(fechaHeader, fechaFormato);
-		/*for(int i = 0;i<5;i++) {
-			if(i==0) {
-			modificarHeaderSwap("");
-			}else {
-				modificarHeaderSwap(i+"");
-			}
-		}*/
-		//LeerConciSwap();
-		//LeerConciOpti();
-		/*for(int i = 0;i<5;i++) {
-			if(i==0) {
-			LeerHeaderSwap("");
-			}else {
-				LeerHeaderSwap(i+"");
-			}
-		}*/
-		/*for(int i = 0;i<5;i++) {
-			if(i==0) {
-			LeerHeaderOpti("");
-			}else {
-				LeerHeaderOpti(i+"");
-			}
-		}*/
-		//LeerFlows();
-		//modificarHeaderSwap();
-		//modificarFlows();
-		//validarHeaderSwap();
-		
+	
 	}
 public String[] LeerMX2(String NoBoletaMX2,String ruta)throws FileNotFoundException{
 	BufferedReader bufferedReader = null;
@@ -129,8 +101,8 @@ public static void LeerHeaderOpti(String fechaHeader, String fechaFormato )throw
     String comparacionMx3="";
     String cabeHeader="";
     try {
-        bufferedReader = new BufferedReader(new FileReader(".\\Archivos\\Murex3\\Formato415_Desarrollo.csv"));
-        bufferedWriter = new BufferedWriter(new FileWriter(".\\Archivos\\Murex3\\FORMATO415_"+fechaFormato+"-modifiado.csv"));
+        bufferedReader = new BufferedReader(new FileReader(".\\Generador 415\\Archivos\\Murex3\\Formato415_Desarrollo.csv"));
+        bufferedWriter = new BufferedWriter(new FileWriter(".\\Generador 415\\Archivos\\Murex3\\FORMATO415_"+fechaFormato+"-modifiado.csv"));
         String lineaRenum = bufferedReader.readLine();
         final double PI = 3.1416;
         final int BaseDias = 360;
@@ -138,66 +110,87 @@ public static void LeerHeaderOpti(String fechaHeader, String fechaFormato )throw
         while(lineaRenum != null) {
         	 String [] fields = lineaRenum.split(";");
         	 NoBoletaMx3 = fields[0];  	 
-           	 String[] infoMx3=leerMx.LeerMX2(NoBoletaMx3,".\\Archivos\\Murex3\\"+fechaHeader+"dialogo_header_opti.txt");
+           	 String[] infoMx3=leerMx.LeerMX2(NoBoletaMx3,".\\Generador 415\\Archivos\\Murex3\\"+fechaHeader+"dialogo_header_opti.txt");
         	 String NumMx3 = Arrays.toString(infoMx3);
         	 System.out.println(NoBoletaMx3);
         	 //Datos para calcular griegas
         	 if(infoMx3 != null) {
         		 System.out.println(NoBoletaMx3);
-            	 double Spot = Double.parseDouble(infoMx3[19]);
-            	 double Days_to_Maturity = Double.parseDouble(infoMx3[21]);
-            	 double MarketVolume = Double.parseDouble(infoMx3[25]);
-            	 double Strike = Double.parseDouble(infoMx3[27]);
-            	 double Tasa_desc_div_base = Double.parseDouble(infoMx3[56]);
-            	 double Tasa_desc_div_sub = Double.parseDouble(infoMx3[57]);
-            	 String BUY_SELL = infoMx3[9];
-            	 String CALL_PUT = infoMx3[10];
-            	 double Te = Days_to_Maturity/365;
-    			 double DaysT2 = Te + 2;
-    			 double VolM = Double.parseDouble(infoMx3[26]);
-    			 double diasCumplimiento = Double.parseDouble(infoMx3[22]) - DaysT2;
-    			 double Td = diasCumplimiento/365;
-    			 double Rd = 0.10;
-    			 double Rcs = 0.03;
-    			 double Rdif = Rd - Rcs;
-    			 double FwdPrice = Spot*(((1+Rd)*(diasCumplimiento/360))/((1+Rcs)*(diasCumplimiento/360)));
-    			 double LnFwdStr = Math.log(FwdPrice/Strike);
-    			 double VolTe = (Math.pow(VolM,2)/2)*Te;
-    			 double SumLnVol = LnFwdStr + VolTe;
-    			 double VolRaiz = VolM*(Math.sqrt(Te));
-    			 double d1 = SumLnVol/VolRaiz;
-    			 double d2 = d1-(VolM*(Math.sqrt(Te)));
+            	 double Spot;
+            	 double Days_to_Maturity;
+            	 double MarketVolume;
+            	 double Strike;
+            	 double Tasa_desc_div_base;
+            	 double Tasa_desc_div_sub;
+            	 String BUY_SELL;
+            	 String CALL_PUT;
+            	 double Te;
+            	 double DaysT2;
+            	 double VolM;
+            	 double diasCumplimiento;
+            	 double Td;
+            	 double Rd;
+            	 double Rcs;
+            	 double Rdif;
+            	 double FwdPrice;
+            	 double LnFwdStr;
+            	 double VolTe;
+            	 double SumLnVol;
+            	 double VolRaiz;
+            	 double d1;
+            	 double d2;
+            	 double nd1;
+            	 double nd2;
+            	 double ndp1;
+            	 double delta;
+            	 double gamma;
+            	 double vega;
+            	 double theta;
+            	 Spot = Double.parseDouble(infoMx3[19]);
+            	 Days_to_Maturity = Double.parseDouble(infoMx3[21]);
+            	 MarketVolume = Double.parseDouble(infoMx3[25]);
+            	 Strike = Double.parseDouble(infoMx3[27]);
+            	 Tasa_desc_div_base = Double.parseDouble(infoMx3[56]);
+            	 Tasa_desc_div_sub = Double.parseDouble(infoMx3[57]);
+            	 BUY_SELL = infoMx3[9];
+            	 CALL_PUT = infoMx3[10];
+            	 Te = Days_to_Maturity/365;
+    			 DaysT2 = Te + 2;
+    			 VolM = Double.parseDouble(infoMx3[26])/100;
+    			 diasCumplimiento = Double.parseDouble(infoMx3[21]) - DaysT2;
+    			 Td = diasCumplimiento/365;
+    			 Rd = 0.10;
+    			 Rcs = 0.03;
+    			 Rdif = Rd - Rcs;
+    			 FwdPrice = Spot*(((1+Rd)*(diasCumplimiento/360))/((1+Rcs)*(diasCumplimiento/360)));
+    			 LnFwdStr = Math.log(FwdPrice/Strike);
+    			 VolTe = (Math.pow(VolM,2)/2)*Te;
+    			 SumLnVol = LnFwdStr + VolTe;
+    			 VolRaiz = VolM*(Math.sqrt(Te));
+    			 d1 = SumLnVol/VolRaiz;
+    			 d2 = d1-(VolM*(Math.sqrt(Te)));
 				 nd = new NormalDistribution();
-				 double nd1 = nd.cumulativeProbability(d1);
-				 double nd2 = nd.cumulativeProbability(d2);
-				 double ndp1 = Math.exp((-1*Math.pow(d1, 2))/2)/(Math.sqrt(2*PI));
-				 double delta = nd1 * 100;
-				 double gamma = Spot*Math.exp(-Rcs*Td*ndp1/(Spot*VolM*Math.sqrt(Td)));
-				 double vega = (Spot*Math.sqrt(Te))*(Math.exp(-Rcs*Td))*(Te/10000);
-				 double theta = (1/365)*((Spot*Math.exp(Td*Rcs)*ndp1*VolM/(2*Math.sqrt(Te)))-(Rd*Strike*Math.exp(-Rd*Td)*nd2)+(Rcs*Spot*Math.exp(-Rcs*Td)*nd1));
+				 nd1 = nd.cumulativeProbability(d1);
+				 nd2 = nd.cumulativeProbability(d2);
+				 ndp1 = Math.exp((-1*Math.pow(d1, 2))/2)/(Math.sqrt(2*PI));
+				 delta = nd1 * 100;
+				 gamma = (Spot*Math.exp(-Rcs*Td)*ndp1)/(Spot*VolM*Math.sqrt(Td));
+				 vega = (Spot*Math.sqrt(Te))*(Math.exp(-Rcs*Td))*(Te/10000);
+				 theta = (1/365)*((Spot*Math.exp(Td*Rcs)*ndp1*VolM/(2*Math.sqrt(Te)))-(Rd*Strike*Math.exp(-Rd*Td)*nd2)+(Rcs*Spot*Math.exp(-Rcs*Td)*nd1));
 
-			
-        	System.out.println(Spot+" "+Days_to_Maturity+" "+MarketVolume+" "+Strike+" "+Tasa_desc_div_base+" "+Tasa_desc_div_sub+" "+BUY_SELL+" "+CALL_PUT+" "+delta+" "+gamma+" "+vega+" "+theta);
+        	 System.out.println(delta+" "+gamma+" "+vega+" "+theta);
         	 //DatosD1=[spot,days to Maturity,Market Volume,Strike,Tasa_desc_div_base,Tasa_desc_div_sub}
-        	 double D1;     
         	 //DatosD2 = [days to Maturity, MarketVolume]
-        	 double D2;
         	 //ND1=[PI,D1]
-        	 double ND1;
         	 //ND2=[PI,D2]
-        	 double ND2;
         	 //Delta=[BUY_SELL,CALL_PUT,D1]
-        	 double Delta;
         	 //Gamma=[Spot,Days_toMaturity.Market Volume,ND1]
-           	 double Gamma;
            	 //Vega = [Spot,Days_to_Maturity,ND1]
-           	 double Vega;
            	 //Theta=[CALL_PUT,Spot,Days_to_Maturity,MarketVolume,Strike,Tasa_desc_div_base,Tasa_desc_div_sub,D2,ND1]
-           	 double Theta;
            	 //Rho = [CALL-PUT,Days_To_Maturity,Strike,Tasa_desc_div_base,Tasa_desc_div_sub,D2]
-           	 double Rho;
            	 
-           	 comparacionMx3 = fields[0]+";"+fields[1]+";"+fields[2]+";"+fields[3]+";"+fields[4]+";"+fields[5]+";"+fields[6]+";"+fields[7]+";"+fields[8]+";"+fields[9];
+           	 
+           	 comparacionMx3 = fields[0]+";"+fields[1]+";"+fields[2]+";"+fields[3]+";"+fields[4]+";"+fields[5]+";"+fields[6]+";"+gamma+";"+vega+";"+delta;
         	 bufferedWriter.write(comparacionMx3+"\n");
         	 System.out.println(comparacionMx3);
         	 }else {
@@ -237,6 +230,8 @@ public static void LeerHeaderOpti(String fechaHeader, String fechaFormato )throw
         }
     }
 }
+
+
 
 
 public static void modificarHeaderSwap(String conteo)throws FileNotFoundException{
