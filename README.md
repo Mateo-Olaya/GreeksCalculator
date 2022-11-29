@@ -3,25 +3,18 @@ Market Risk tool that calculates the value of Rho, Gamma, Vega, Theta
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+The GreeksCalculator uses three different input files in order to calculate the value of Gamma, Vega and Theta. The result creates a new file FORMATO415_yyyymmdd.csv with the correct value of Gamma, Vega and Theta. 
 
 ## Installation
 
-```bash
-$ npm install
-```
+1. Copy CalculadorGriegas.jar into Desktop folder.
 
 ## Running the app
 
+1. In the Desktop folder run the following command:
+
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+$ java -cp CalculadorGriegas.jar
 ```
 
 ## Support
