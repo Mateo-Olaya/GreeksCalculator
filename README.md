@@ -7,14 +7,14 @@ The GreeksCalculator uses three different input files in order to calculate the 
 
 ## Installation
 
-1. Copy CalculadorGriegas.jar into Desktop folder.
+1. Copy CalculadoraGriegas.jar into Desktop folder.
 
 ## Running the app
 
 1. In the Desktop folder run the following command:
 
 ```bash
-$ java -cp CalculadorGriegas.jar
+java -jar CalculadoraGriegas.jar
 ```
 
 ## Support
